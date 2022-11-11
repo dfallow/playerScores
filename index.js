@@ -5,7 +5,8 @@ export default async function playersByScore() {
     // get array of all matches played
     let allMatches = await getPlayerScores();
     let winnerArray = [];
-    
+    const wins = [];    
+    let playersInOrder = [];
     // gets the winner from each match, excludes ties
     allMatches.forEach(match => {
         const players = Object.keys(match);
@@ -22,14 +23,13 @@ export default async function playersByScore() {
     const allPlayers = [...new Set(winnerArray)];
 
     // counts the number of times each player has won games
-    const wins = []
     allPlayers.forEach(player => {
         let count = 0;
         winnerArray.forEach((winner) => (winner === player && count++));
         wins.push({
             "player": player,
             "totalWins": count
-        })
+        });
     });
 
     // sorts winners array in descending order
@@ -37,13 +37,13 @@ export default async function playersByScore() {
         return b.totalWins - a.totalWins;
     })
 
-    let playersInOrder = []
+    
     playersWithScore.forEach(element => {
-        playersInOrder.push(Object.entries(element)[0][1])
+        playersInOrder.push(Object.entries(element)[0][1]);
     });
    return playersInOrder;
 }
 
-const playerInOrder = await playersByScore()
+const playerInOrder = await playersByScore();
 
-console.log(playerInOrder)
+console.log(playerInOrder);
